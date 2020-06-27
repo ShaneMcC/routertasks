@@ -1,0 +1,21 @@
+{
+	"name": "shanemcc/routertasks",
+	"description": "PHP app to run tasks on routers",
+	"type": "project",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Shane Mc Cormack",
+			"email": "shanemcc@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=7.2",
+		"mustangostang/spyc": "^0.6.3",
+	    "shanemcc/phprouter": "dev-master"
+	},
+	"autoload": {
+		"classmap": [
+		]
+	}
+}
