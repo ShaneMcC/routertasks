@@ -3,6 +3,10 @@
 	$config['logging'] = true;
 	$config['logfile'] = __DIR__ . '/logs.txt';
 
+	// Lock file to ensure only 1 task can run at a time.
+	$config['lockfile'] = __DIR__ . '/run.lock';
+	$config['locktimeout'] = 10;
+
 	// Location of tasks
 	$config['taskdir'] = __DIR__ . '/tasks/';
 

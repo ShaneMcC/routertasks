@@ -3,3 +3,4 @@ test.php
 logs.txt
 tasks/
 vendor/
+run.lock

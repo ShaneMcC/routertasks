@@ -112,7 +112,6 @@
 
 		echo 'Beginning pre-flight checks for task...', "\n";
 		if ($html) { echo '<br>'; }
-
 		$task = $config['tasks'][$taskid];
 
 		// Check task is not disabled.
@@ -120,6 +119,44 @@
 			echo 'Task is disabled, aborting.', "\n";
 			if ($html) { echo '<br>'; }
 			return FALSE;
+		}
+
+		// Check that we can get a lock on the lockfile...
+		if (!empty($config['lockfile'])) {
+			$needLock = true;
+
+			if (isset($task['nolock']) && parseBool($task['nolock'])) {
+				$needLock = false;
+				echo 'Lock not required.', "\n";
+			}
+
+			if ($needLock) {
+				echo 'Trying to get lock on: ', $config['lockfile'], ' for up to ', $config['locktimeout'], ' seconds.', "\n";
+				if ($html) { echo '<br>'; }
+
+				$fp = fopen($config['lockfile'], "w");
+				$count = 0;
+				while (true) {
+					if (flock($fp, LOCK_EX | LOCK_NB)) {
+						echo "\n";
+						if ($html) { echo '<br>'; }
+						echo 'Got lock after ', $count, ' seconds.', "\n";
+						if ($html) { echo '<br>'; }
+						break;
+					} else {
+						echo '.';
+						flush();
+						if (++$count >= $config['locktimeout']) {
+							echo "\n";
+							if ($html) { echo '<br>'; }
+							echo 'Could not get lock on ', $config['lockfile'], ' after ', $count, ' seconds.', "\n";
+							if ($html) { echo '<br>'; }
+							return FALSE;
+						}
+						sleep(1);
+					}
+				}
+			}
 		}
 
 		// Check that all routers needed are available.
@@ -181,6 +218,12 @@
 
 			if (isset($step['skip']) && parseBool($step['skip'])) {
 				echo 'Skipping step.', "\n";
+			}
+
+			if (isset($step['wait'])) {
+				echo 'Waiting ', $step['wait'], ' seconds before continuing.', "\n";
+				echo '<br>';
+				sleep($step['wait']);
 			}
 
 			if (isset($step['routers'])) {
