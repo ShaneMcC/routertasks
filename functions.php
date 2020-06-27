@@ -116,9 +116,16 @@
 
 		// Check task is not disabled.
 		if (isset($task['disabled']) && parseBool($task['disabled'])) {
-			echo 'Task is disabled, aborting.', "\n";
-			if ($html) { echo '<br>'; }
-			return FALSE;
+			echo 'Task is disabled';
+
+			if (defined('FORCE_ENABLED')) {
+				echo ', force-running.', "\n";
+				if ($html) { echo '<br>'; }
+			} else {
+				echo ', aborting.', "\n";
+				if ($html) { echo '<br>'; }
+				return FALSE;
+			}
 		}
 
 		// Check that we can get a lock on the lockfile...
@@ -224,7 +231,7 @@
 
 			if (isset($step['wait'])) {
 				echo 'Waiting ', $step['wait'], ' seconds before continuing.', "\n";
-				echo '<br>';
+				if ($html) { echo '<br>'; }
 				sleep($step['wait']);
 			}
 
