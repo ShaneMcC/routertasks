@@ -138,8 +138,10 @@
 				$count = 0;
 				while (true) {
 					if (flock($fp, LOCK_EX | LOCK_NB)) {
-						echo "\n";
-						if ($html) { echo '<br>'; }
+						if ($count > 0) {
+							echo "\n";
+							if ($html) { echo '<br>'; }
+						}
 						echo 'Got lock after ', $count, ' seconds.', "\n";
 						if ($html) { echo '<br>'; }
 						break;
