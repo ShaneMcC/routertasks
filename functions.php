@@ -277,7 +277,7 @@
 							echo '!!! Command: ', $command, "\n";
 							if ($html) { echo '</strong>'; }
 
-							$canary = getCanary($device);
+							$canary = getCanary($dev);
 							$dev->writeln($canary);
 							$dev->getStreamData($canary . "\n");
 
