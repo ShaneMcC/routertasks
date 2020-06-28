@@ -209,8 +209,6 @@
 
 		$stepCount = count($task['steps']);
 
-		$canary = '! ' . md5(uniqid());
-
 		$stop = FALSE;
 
 		for ($s = 0; $s < $stepCount; $s++) {
@@ -258,6 +256,11 @@
 							if ($html) { echo '<strong>'; }
 							echo '!!! Command: ', $command, "\n";
 							if ($html) { echo '</strong>'; }
+
+							$canary = '! ' . md5(uniqid(true));
+							$dev->writeln($canary);
+							$dev->getStreamData($canary . "\n");
+
 							$dev->writeln($command);
 							$dev->writeln($canary);
 							$output = $dev->getStreamData($canary . "\n") . "\n";
