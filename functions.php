@@ -143,7 +143,10 @@
 		if (!empty($config['lockfile'])) {
 			$needLock = true;
 
-			if (isset($task['nolock']) && parseBool($task['nolock'])) {
+			if (isset($task['lock']) && !parseBool($task['nolock'])) {
+				$needLock = false;
+				echo 'Lock not required.', "\n";
+			} else if (isset($task['nolock']) && parseBool($task['nolock'])) {
 				$needLock = false;
 				echo 'Lock not required.', "\n";
 			}
