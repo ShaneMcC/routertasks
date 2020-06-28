@@ -19,8 +19,19 @@
 			$sock = new SSHSocket($dev, $config['routers'][$dev]['user'], $config['routers'][$dev]['pass']);
 		}
 
+		// TODO: Support non-cisco devices.
 		$device = new CiscoSwitch('', '', '', $sock);
 		return $device;
+	}
+
+	function getCanary($device) {
+		$uniq = md5(uniqid(true));
+
+		if ($device instanceof CiscoSwitch || $device instanceof CiscoRouter) {
+			return '! ' . $uniq;
+		}
+
+		return FALSE;
 	}
 
 	function doLog($data) {
@@ -163,7 +174,8 @@
 			}
 		}
 
-		// Check that all routers needed are available.
+		// Check that all routers needed are available and that we support
+		// them.
 		$checkedRouters = [];
 		foreach ($task['steps'] as $stepid => $step) {
 			if (isset($step['skip']) && parseBool($step['skip'])) { continue; }
@@ -180,6 +192,12 @@
 						return FALSE;
 					}
 
+					if (getCanary($dev) === FALSE) {
+						echo 'Unable to support ', $router, ' - unable to obtain canary.', "\n";
+						if ($html) { echo '</pre>'; }
+						return FALSE;
+					}
+
 					$checkedRouters[$router] = true;
 				}
 			}
@@ -189,7 +207,6 @@
 		if ($html) { echo '</pre>'; }
 		return true;
 	}
-
 
 	function runTask($taskid, $html = false) {
 		global $config;
@@ -257,7 +274,7 @@
 							echo '!!! Command: ', $command, "\n";
 							if ($html) { echo '</strong>'; }
 
-							$canary = '! ' . md5(uniqid(true));
+							$canary = getCanary($device);
 							$dev->writeln($canary);
 							$dev->getStreamData($canary . "\n");
 
