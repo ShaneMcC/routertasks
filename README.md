@@ -20,7 +20,7 @@ Initial configuration is performed in the `config.local.php` file to define the 
 
 ```php
 <?php
-        $routerOptions = array('user' => 'automation', 'pass' => 'automation1', 'enable' => 'enablepass');
+        $routerOptions = ['user' => 'automation', 'pass' => 'automation1', 'enable' => 'enablepass'];
 
         $config['routers']['router1'] = $routerOptions;
         $config['routers']['router2'] = $routerOptions;
