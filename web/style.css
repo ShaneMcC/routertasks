@@ -16,6 +16,15 @@ input {
 	font: 13px/1.7em Helvetica, Arial, sans-serif;
 }
 
+fieldset {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#taskid {
+	width: 100%;
+}
+
 div.controls p {
 	margin-top: 3px;
 	margin-bottom: 0px;
