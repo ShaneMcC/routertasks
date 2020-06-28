@@ -110,8 +110,9 @@
 			return false;
 		}
 
+		if ($html) { echo '<strong>'; }
 		echo 'Beginning pre-flight checks for task...', "\n";
-		if ($html) { echo '<br>'; }
+		if ($html) { echo '</strong><pre>'; }
 		$task = $config['tasks'][$taskid];
 
 		// Check task is not disabled.
@@ -120,10 +121,9 @@
 
 			if (defined('FORCE_ENABLED')) {
 				echo ', force-running.', "\n";
-				if ($html) { echo '<br>'; }
 			} else {
 				echo ', aborting.', "\n";
-				if ($html) { echo '<br>'; }
+				if ($html) { echo '</pre>'; }
 				return FALSE;
 			}
 		}
@@ -139,7 +139,6 @@
 
 			if ($needLock) {
 				echo 'Trying to get lock on: ', $config['lockfile'], ' for up to ', $config['locktimeout'], ' seconds.', "\n";
-				if ($html) { echo '<br>'; }
 
 				$fp = fopen($config['lockfile'], "w");
 				$count = 0;
@@ -147,19 +146,15 @@
 					if (flock($fp, LOCK_EX | LOCK_NB)) {
 						if ($count > 0) {
 							echo "\n";
-							if ($html) { echo '<br>'; }
 						}
 						echo 'Got lock after ', $count, ' seconds.', "\n";
-						if ($html) { echo '<br>'; }
 						break;
 					} else {
 						echo '.';
 						flush();
 						if (++$count >= $config['locktimeout']) {
 							echo "\n";
-							if ($html) { echo '<br>'; }
 							echo 'Could not get lock on ', $config['lockfile'], ' after ', $count, ' seconds.', "\n";
-							if ($html) { echo '<br>'; }
 							return FALSE;
 						}
 						sleep(1);
@@ -178,11 +173,10 @@
 					if (isset($checkedRouters[$router])) { continue; }
 
 					echo 'Step ', ($stepid + 1), ' requires ', $router, "\n";
-					if ($html) { echo '<br>'; }
 
 					$dev = getConnectedDevice($router);
 					if ($dev == FALSE) {
-						if ($html) { echo '<br>'; }
+						if ($html) { echo '</pre>'; }
 						return FALSE;
 					}
 
@@ -192,6 +186,7 @@
 		}
 
 		// Good to go.
+		if ($html) { echo '</pre>'; }
 		return true;
 	}
 
@@ -199,28 +194,33 @@
 	function runTask($taskid, $html = false) {
 		global $config;
 
-		if (!checkTask($taskid, $html)) { return ''; }
-
 		set_time_limit(0);
+
+		if (!checkTask($taskid, $html)) { return FALSE; }
+
+		$finalResult = TRUE;
 		$task = $config['tasks'][$taskid];
 
 		doLog('Running task: ' . $task['name']);
 
+		if ($html) { echo '<h2>'; }
 		echo 'Running task: ', $task['name'], "\n";
+		if ($html) { echo '</h2>'; }
+
 		$stepCount = count($task['steps']);
 
 		$canary = '! ' . md5(uniqid());
 
-		$stop = false;
+		$stop = FALSE;
 
 		for ($s = 0; $s < $stepCount; $s++) {
 			if ($stop) { break; }
 
 			$step = $task['steps'][$s];
 			if ($html) {
-				echo '<h2>';
-				echo 'Step: ', ($s+1), ' / ', $stepCount, ' [ ', $step['name'], ' ]', "\n";
-				echo '</h2>';
+				echo '<h3>';
+				echo 'Step: ', ($s+1), ' / ', $stepCount, ' [', $step['name'], ']', "\n";
+				echo '</h3>';
 			} else {
 				echo '==[ Begin Step: ', ($s+1), ' / ', $stepCount, ' ]=[ ', $step['name'], ' ]==========', "\n";
 			}
@@ -239,9 +239,9 @@
 				foreach ($step['routers'] as $router) {
 					if ($stop) { break; }
 					if ($html) {
-						echo '<h3>';
+						echo '<h4>';
 						echo 'Router: ', $router, "\n";
-						echo '</h3>';
+						echo '</h4>';
 					} else {
 						echo '### Router: ', $router, "\n";
 					}
@@ -255,14 +255,16 @@
 						foreach ($step['commands'] as $cid => $command) {
 							if ($stop) { break; }
 
+							if ($html) { echo '<strong>'; }
 							echo '!!! Command: ', $command, "\n";
+							if ($html) { echo '</strong>'; }
 							$dev->writeln($command);
 							$dev->writeln($canary);
 							$output = $dev->getStreamData($canary . "\n") . "\n";
 							$allOutput .= $output . "\n";
 
 							if (!isset($step['silent']) || !parseBool($step['silent'])) {
-								echo $output;
+								echo ($html) ? htmlspecialchars($output) : $output;
 							}
 							flush();
 						}
@@ -274,22 +276,30 @@
 
 								if (isset($validate['name'])) {
 									if ($html) {
-										echo '<strong>';
+										echo '<h5>';
 										echo 'Validate: ', $validate['name'], "\n";
-										echo '</strong><br>';
+										echo '</h5>';
 									} else {
 										echo '??? Validate: ', $validate['name'], "\n";
 									}
 								}
 
-								$result = false;
+								$result = FALSE;
 								if (isset($validate['match'])) {
+									if ($html) {
+										echo '<strong>Match:</strong> <code>', htmlspecialchars($validate['match']), '</code><br>';
+									} else {
+										echo 'Match:', $validate['match'], "\n";
+									}
 									$result = preg_match($validate['match'], $output);
 									if (isset($validate['inverse']) && parseBool($validate['inverse'])) { $result = !$result; }
-								}
-
-								if (isset($validate['matchline'])) {
-									$result = false;
+								} else if (isset($validate['matchline'])) {
+									if ($html) {
+										echo '<strong>Match Line:</strong> <code>', htmlspecialchars($validate['matchline']), '</code><br>';
+									} else {
+										echo 'Match Line:', $validate['matchline'], "\n";
+									}
+									$result = FALSE;
 									foreach (explode("\n", $output) as $line) {
 										$res = preg_match($validate['matchline'], $line);
 
@@ -298,13 +308,16 @@
 									}
 								}
 
+								if ($html) { echo '<span class="', ($result ? 'yes' : 'no'), '"><strong>'; }
 								echo 'Validation ', ($result ? 'Succeeded' : 'Failed'), "\n";
-								if ($html) { echo '<br>'; }
+								if ($html) { echo '</strong></span><br>'; }
 								if (!$result && isset($validate['stop']) && parseBool($validate['stop'])) {
 									echo 'Stopping further execution due to failed validation.', "\n";
 									if ($html) { echo '<br>'; }
-									$stop = true;
+									$stop = TRUE;
+									$finalResult = FALSE;
 								}
+								if ($html) { echo '<br>'; }
 							}
 						}
 					}
@@ -321,6 +334,8 @@
 			}
 			flush();
 		}
+
+		return $finalResult;
 	}
 
 	function showTask($taskid, $html = false) {
@@ -334,9 +349,9 @@
 
 		$task = $config['tasks'][$taskid];
 
-		if ($html) { echo '<pre>'; }
+		if ($html) { echo '<pre class="hljs"><code class="yaml">'; }
 		echo file_get_contents($task['file']);
-		if ($html) { echo '</pre>'; }
+		if ($html) { echo '</code></pre>'; }
 	}
 
 	loadTasks();

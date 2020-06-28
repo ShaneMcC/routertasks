@@ -7,12 +7,14 @@
 	showTask($_REQUEST['taskid'], true);
 ?>
 
+	<script>hljs.initHighlightingOnLoad();</script>
+
 	<form method="POST">
 		<input type="hidden" name="run">
 		<input type="hidden" name="taskid" value="<?=$_REQUEST['taskid']?>">
 		<button class="btn btn-success" type="submit" name="submit">Run</button>
 	</form>
-
+	<br>
 	<form method="POST">
 		<button class="btn btn-danger" type="submit" name="submit">Cancel</button>
 	</form>

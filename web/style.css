@@ -73,9 +73,13 @@ div.controls p {
 	margin: 0px;
 }
 
-.box .footer .form-actions {
+.box .box-footer .form-actions {
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
+    padding: 19px 20px 20px;
+    margin-top: 20px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #e5e5e5;
 }
 
 .box .form-actions {
@@ -85,6 +89,31 @@ div.controls p {
 
 .box .centered {
 	text-align: center;
+}
+
+pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 20px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre;
+    white-space: pre-wrap;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.15);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px
+    padding: 0 3px 2px;
+    font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
+    font-size: 12px;
+    color: #333;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px
 }
 
 span.yes {
@@ -97,4 +126,8 @@ span.no {
 
 span.meh {
 	color: #AAA;
+}
+
+button {
+	width: 100px;
 }

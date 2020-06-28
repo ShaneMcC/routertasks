@@ -1,8 +1,10 @@
-		<hr>
-		<footer>
-			<p>&copy; Shane "Dataforce" Mc Cormack</p>
-		</footer>
-	</div>
+		</div>
 
-</body>
+		<footer class="footer">
+			<div class="container">
+				<hr>
+				<p class="text-muted"><small>&copy; Shane 'Dataforce' Mc Cormack</small></p>
+			</div>
+		</footer>
+	</body>
 </html>

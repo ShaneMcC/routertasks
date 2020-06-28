@@ -1,6 +1,6 @@
 <?php if (isset($config['tasks']) && !empty($config['tasks'])) { ?>
-		<div class="row">
-			<div class="offset3 span6">
+		<div class="row justify-content-md-center"">
+			<div class="col-6">
 				<div class="box">
 					<form method="POST">
 						<div class="header">
@@ -22,7 +22,7 @@
 							</fieldset>
 						</div>
 
-						<div class="footer">
+						<div class="box-footer">
 							<div class="form-actions">
 								<div class="control-group">
 									<div class="controls">
