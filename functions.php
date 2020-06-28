@@ -2,6 +2,30 @@
 	require_once(__DIR__ . '/vendor/autoload.php');
 	require_once(__DIR__ . '/config.php');
 
+	function getDeviceFromAlias($deviceName) {
+		global $config, $__DEVICE_ALIASES;
+
+		// Return name if known already.
+		if (isset($config['routers'][$deviceName])) { return $deviceName; }
+		if (isset($__DEVICE_ALIASES[$deviceName])) { return $__DEVICE_ALIASES[$deviceName]; }
+
+		// Build aliases list if we can't find it already.
+		foreach ($config['routers'] as $name => $dev) {
+			if (isset($dev['aliases'])) {
+				foreach ($dev['aliases'] as $alias) {
+					if (!isset($__DEVICE_ALIASES[$alias])) {
+						$__DEVICE_ALIASES[$alias] = $name;
+					}
+				}
+			}
+		}
+
+		// Try again.
+		if (isset($__DEVICE_ALIASES[$deviceName])) { return $__DEVICE_ALIASES[$deviceName]; }
+
+		return FALSE;
+	}
+
 	function getDeviceObject($dev) {
 		global $config;
 
@@ -75,6 +99,8 @@
 
 	function getConnectedDevice($deviceName) {
 		global $config, $__DEVICES;
+
+		$deviceName = getDeviceFromAlias($deviceName);
 
 		if (!isset($__DEVICES[$deviceName])) {
 			$device = getDeviceObject($deviceName);
