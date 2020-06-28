@@ -9,7 +9,7 @@
 
 						<div class="body">
 							<p>
-								Please choose a task to run below.
+								Please choose a task to run below, you will be given a chance to review the contents of the task before running it.
 							</p>
 							<fieldset>
 								<select id="taskid" name="taskid">
