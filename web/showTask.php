@@ -20,6 +20,6 @@
 		<button class="btn btn-success" type="submit" name="submit">Run</button>
 	</form>
 	<br>
-	<form method="POST">
+	<form method="POST" action="<?=getBasePath()?>">
 		<button class="btn btn-danger" type="submit" name="submit">Cancel</button>
 	</form>
