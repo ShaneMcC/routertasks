@@ -408,6 +408,33 @@
 
 		$task = $config['tasks'][$taskid];
 
+		if (isset($task['message'])) {
+			if (!is_array($task['message']) || isset($task['message']['text'])) { $task['message'] = [$task['message']]; }
+
+			foreach ($task['message'] as $message) {
+				if (!is_array($message)) { $message = ['text' => $message]; }
+
+				if ($html) {
+					$alertType = isset($message['type']) ? $message['type'] : 'info';
+					echo '<div class="alert alert-', $alertType, '" role="alert">';
+				} else {
+					$alertChar = '-';
+					if (isset($message['type'])) {
+						switch (strtolower($message['type'])) {
+							case 'danger': $alertChar = '@'; break;
+							case 'warning': $alertChar = '!'; break;
+							case 'info': $alertChar = '='; break;
+							default: break;
+						}
+					}
+					echo str_repeat($alertChar, 60), "\n", $alertChar, ' ';
+				}
+
+				echo $message['text'], "\n";
+				if ($html) { echo '</div>'; } else { echo str_repeat($alertChar, 60), "\n\n"; }
+			}
+		}
+
 		if ($html) { echo '<pre class="hljs"><code class="yaml">'; }
 		echo file_get_contents($task['file']);
 		if ($html) { echo '</code></pre>'; }
