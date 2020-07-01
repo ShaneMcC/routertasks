@@ -2,7 +2,7 @@
 		<div class="row justify-content-md-center"">
 			<div class="col-6">
 				<div class="box">
-					<form method="POST">
+					<form method="POST" action="<?=getBasePath()?>">
 						<div class="header">
 							<h2>Choose Task</h2>
 						</div>
@@ -15,7 +15,7 @@
 								<select id="taskid" name="taskid">
 									<?php foreach ($config['tasks'] as $taskid => $task) { ?>
 										<?php if (isset($task['disabled']) && parseBool($task['disabled'])) { continue; } ?>
-										<?php $selected = (isset($_REQUEST['taskid']) && $taskid == $_REQUEST['taskid'] ? 'selected' : ''); ?>
+										<?php $selected = ($activeTask !== FALSE && $taskid == $activeTask ? 'selected' : ''); ?>
 										<option <?=$selected?> value="<?=$taskid?>"><?=htmlspecialchars($task['name'])?></option>
 									<?php } ?>
 								</select>

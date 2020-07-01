@@ -11,7 +11,7 @@
 	ob_implicit_flush(true);
 	echo str_pad("",1048," "), "\n";
 
-	$finalResult = runTask($_REQUEST['taskid'], true);
+	$finalResult = runTask($activeTask, true);
 
 	echo '<script>';
 	echo '$("nav.fixed-top").removeClass("bg-dark");';

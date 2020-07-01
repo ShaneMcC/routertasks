@@ -2,6 +2,14 @@
 	require_once(__DIR__ . '/vendor/autoload.php');
 	require_once(__DIR__ . '/config.php');
 
+	function getBasePath() {
+		$basepath = dirname($_SERVER['SCRIPT_FILENAME']) . '/';
+		$basepath = preg_replace('#^' . preg_quote($_SERVER['DOCUMENT_ROOT']) . '#', '/', $basepath);
+		$basepath = preg_replace('#^/+#', '/', $basepath);
+
+		return $basepath;
+	}
+
 	function getDeviceFromAlias($deviceName) {
 		global $config, $__DEVICE_ALIASES;
 
