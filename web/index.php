@@ -8,7 +8,7 @@
 	if (isset($_REQUEST['slug'])) {
 		foreach ($config['tasks'] as $taskid => $task) {
 			if (isset($task['disabled']) && parseBool($task['disabled'])) { continue; }
-			if (strtolower($task['slug']) == strtolower($_REQUEST['slug'])) {
+			if (isset($task['slug']) && strtolower($task['slug']) == strtolower($_REQUEST['slug'])) {
 				$activeTask = $taskid;
 				break;
 			}
