@@ -430,6 +430,12 @@
 					echo str_repeat($alertChar, 60), "\n", $alertChar, ' ';
 				}
 
+				if (isset($message['title'])) {
+					if ($html) { echo '<h5 class="alert-heading"><strong>'; }
+					echo $message['title'], "\n";
+					if ($html) { echo '</strong></h5>'; } else { echo str_repeat($alertChar, 30), "\n", $alertChar, ' '; }
+				}
+
 				echo $message['text'], "\n";
 				if ($html) { echo '</div>'; } else { echo str_repeat($alertChar, 60), "\n\n"; }
 			}
