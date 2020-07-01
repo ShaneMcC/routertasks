@@ -13,6 +13,7 @@
 							</p>
 							<fieldset>
 								<select id="taskid" name="taskid">
+									<option selected disabled value="">Please select a task...</option>
 									<?php foreach ($config['tasks'] as $taskid => $task) { ?>
 										<?php if (isset($task['hidden']) && parseBool($task['hidden'])) { continue; } ?>
 										<?php if (isset($task['disabled']) && parseBool($task['disabled'])) { continue; } ?>
