@@ -177,7 +177,7 @@
 		if (!empty($config['lockfile'])) {
 			$needLock = true;
 
-			if (isset($task['lock']) && !parseBool($task['nolock'])) {
+			if (isset($task['lock']) && !parseBool($task['lock'])) {
 				$needLock = false;
 				echo 'Lock not required.', "\n";
 			} else if (isset($task['nolock']) && parseBool($task['nolock'])) {
@@ -277,17 +277,19 @@
 				echo '==[ Begin Step: ', ($s+1), ' / ', $stepCount, ' ]=[ ', $step['name'], ' ]==========', "\n";
 			}
 
+			$skip = false;
 			if (isset($step['skip']) && parseBool($step['skip'])) {
 				echo 'Skipping step.', "\n";
+				$skip = true;
 			}
 
-			if (isset($step['wait'])) {
+			if (!$skip && isset($step['wait'])) {
 				echo 'Waiting ', $step['wait'], ' seconds before continuing.', "\n";
 				if ($html) { echo '<br>'; }
 				sleep($step['wait']);
 			}
 
-			if (isset($step['routers'])) {
+			if (!$skip && isset($step['routers'])) {
 				foreach ($step['routers'] as $router) {
 					if ($stop) { break; }
 					if ($html) {
