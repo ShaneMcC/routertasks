@@ -14,6 +14,7 @@
 							<fieldset>
 								<select id="taskid" name="taskid">
 									<?php foreach ($config['tasks'] as $taskid => $task) { ?>
+										<?php if (isset($task['hidden']) && parseBool($task['hidden'])) { continue; } ?>
 										<?php if (isset($task['disabled']) && parseBool($task['disabled'])) { continue; } ?>
 										<?php $selected = ($activeTask !== FALSE && $taskid == $activeTask ? 'selected' : ''); ?>
 										<option <?=$selected?> value="<?=$taskid?>"><?=htmlspecialchars($task['name'])?></option>

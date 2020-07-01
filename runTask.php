@@ -13,6 +13,7 @@
 
 	if (isset($options['list'])) {
 		foreach ($config['tasks'] as $taskid => $task) {
+			if (isset($task['hidden']) && parseBool($task['hidden'])) { echo '[Hidden] '; }
 			if (isset($task['disabled']) && parseBool($task['disabled'])) { echo '[Disabled] '; }
 			if (isset($task['slug'])) {
 				$slug = ' => Slug "' . $task['slug'] . '"';
