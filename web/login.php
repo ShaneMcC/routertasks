@@ -1,24 +1,28 @@
 <?php
 	require_once(dirname(__FILE__) . '/../functions.php');
-	require_once(dirname(__FILE__) . '/header.php');
 
 	$showForm = false;
+	$message = '';
 
 	if (isLoggedInAdmin()) {
-		echo 'You are already logged in.';
+		$message = 'You are already logged in.';
 	} else if (isset($_POST) && !empty($_POST)) {
 		if (checkLogin($_POST)) {
-			$_SESSION['isAdmin'] = true;
-
-			echo 'Login successful.';
+			loginSuccess($_POST);
+			$message = 'Login successful.';
 		} else {
-			echo 'Login failed.';
+			loginFailed($_POST);
+			$message = 'Login failed.';
 
 			$showForm = true;
 		}
 	} else {
 		$showForm = true;
 	}
+
+	require_once(dirname(__FILE__) . '/header.php');
+
+	echo $message;
 
 	if ($showForm) { ?>
 		<div class="row justify-content-md-center">

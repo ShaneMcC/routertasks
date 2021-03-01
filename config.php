@@ -49,3 +49,15 @@
 			return isset($fields['password']) && ($fields['password'] == $config['adminPassword']);
 		}
 	}
+
+	if (!function_exists('loginSuccess')) {
+		function loginSuccess($fields) { $_SESSION['isAdmin'] = true; }
+	}
+
+	if (!function_exists('loginFailed')) {
+		function loginFailed($fields) { }
+	}
+
+	if (!function_exists('logoutSuccess')) {
+		function logoutSuccess() { unset($_SESSION['isAdmin']); }
+	}
