@@ -2,6 +2,8 @@
 	require_once(__DIR__ . '/vendor/autoload.php');
 	require_once(__DIR__ . '/config.php');
 
+	session_start();
+
 	function getBasePath() {
 		$basepath = dirname($_SERVER['SCRIPT_FILENAME']) . '/';
 		$basepath = preg_replace('#^' . preg_quote($_SERVER['DOCUMENT_ROOT']) . '#', '/', $basepath);
@@ -444,6 +446,10 @@
 		if ($html) { echo '<pre class="hljs"><code class="yaml">'; }
 		echo file_get_contents($task['file']);
 		if ($html) { echo '</code></pre>'; }
+	}
+
+	function isLoggedInAdmin() {
+		return isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] === true;
 	}
 
 	loadTasks();

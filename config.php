@@ -25,10 +25,27 @@
 	//    - %%DEV%% - Device name
 	$config['routers'] = [];
 
+	// Password for admin functions
+	$config['adminPassword'] = 'password';
+
 	// $config['routers']['router1'] = ['user' => 'admin', 'pass' => 'password', 'params' => '-o ProxyCommand="ssh bastion -W %%DEV%%:22"';
 	// $config['routers']['router2'] = ['user' => 'admin', 'pass' => 'somepassword'];
 
 	// Load in local config if it exists.
 	if (file_exists(dirname(__FILE__) . '/config.local.php')) {
 		require_once(dirname(__FILE__) . '/config.local.php');
+	}
+
+	if (!function_exists('getLoginFields')) {
+		function getLoginFields() {
+			return ['password' => ['type' => 'password']];
+		}
+	}
+
+	if (!function_exists('checkLogin')) {
+		function checkLogin($fields) {
+			global $config;
+
+			return isset($fields['password']) && ($fields['password'] == $config['adminPassword']);
+		}
 	}

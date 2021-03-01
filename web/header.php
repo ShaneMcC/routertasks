@@ -22,7 +22,19 @@
 
 	<body>
 		<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-			<a class="navbar-brand" href="">Router Task Runner</a>
+			<a class="navbar-brand" href="<?=getBasePath()?>">Router Task Runner</a>
+			<ul class="navbar-nav mr-auto">
+				<?php if (isLoggedInAdmin()) { ?>
+					<li class="nav-item"><a class="nav-link" href="<?=getBasePath()?>/listAll.php">All tasks</a></li>
+				<?php } ?>
+			</ul>
+			<ul class="navbar-nav">
+				<?php if (isLoggedInAdmin()) { ?>
+					<li class="nav-item"><a class="nav-link" href="<?=getBasePath()?>/logout.php">Logout</a></li>
+				<?php } else { ?>
+					<li class="nav-item"><a class="nav-link" href="<?=getBasePath()?>/login.php">Login</a></li>
+				<?php } ?>
+			</ul>
     	</nav>
 
 		<div class="container">

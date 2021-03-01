@@ -1,5 +1,9 @@
+<?php if (!isset($showHidden)) { $showHidden = false; } ?>
+<?php if (!isset($showDisabled)) { $showDisabled = false; } ?>
+<?php if (!isset($activeTask)) { $activeTask = false; } ?>
+
 <?php if (isset($config['tasks']) && !empty($config['tasks'])) { ?>
-		<div class="row justify-content-md-center"">
+		<div class="row justify-content-md-center">
 			<div class="col-6">
 				<div class="box">
 					<form method="POST" action="<?=getBasePath()?>">
@@ -15,10 +19,15 @@
 								<select id="taskid" name="taskid">
 									<option selected disabled value="">Please select a task...</option>
 									<?php foreach ($config['tasks'] as $taskid => $task) { ?>
-										<?php if (isset($task['hidden']) && parseBool($task['hidden'])) { continue; } ?>
-										<?php if (isset($task['disabled']) && parseBool($task['disabled'])) { continue; } ?>
+										<?php if (isset($task['hidden']) && parseBool($task['hidden']) && ($showHidden !== true)) { continue; } ?>
+										<?php if (isset($task['disabled']) && parseBool($task['disabled']) && ($showDisabled !== true)) { continue; } ?>
+
 										<?php $selected = ($activeTask !== FALSE && $taskid == $activeTask ? 'selected' : ''); ?>
-										<option <?=$selected?> value="<?=$taskid?>"><?=htmlspecialchars($task['name'])?></option>
+										<option <?=$selected?> value="<?=$taskid?>">
+											<?=htmlspecialchars($task['name'])?>
+											<?php if (isset($task['hidden']) && parseBool($task['hidden'])) { echo ' {Hidden}'; }; ?>
+											<?php if (isset($task['disabled']) && parseBool($task['disabled'])) { echo ' {Disabled}'; }; ?>
+										</option>
 									<?php } ?>
 								</select>
 							</fieldset>
