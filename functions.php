@@ -75,18 +75,26 @@
 			$sock = new SSHSocket($dev, $config['routers'][$dev]['user'], $config['routers'][$dev]['pass']);
 		}
 
-		// TODO: Support non-cisco devices.
-		$device = new CiscoSwitch('', '', '', $sock);
+		$device = null;
+		if (isset($config['routers'][$dev]['type'])) {
+			$devType = $config['routers'][$dev]['type'];
+
+			if (class_exists($devType)) {
+				$class = new ReflectionClass($devType);
+
+				if ($class->isSubclassOf(new ReflectionClass('NetworkDevice'))) {
+					$device = new $devType('', '', '', $sock);
+				}
+			}
+		} else {
+			$device = new CiscoSwitch('', '', '', $sock);
+		}
+
 		return $device;
 	}
 
 	function getCanary($device) {
-		$uniq = md5(uniqid(true));
-
-		if ($device instanceof CiscoSwitch || $device instanceof CiscoRouter) {
-			return '! ' . $uniq;
-		}
-
+		if ($device instanceof HasCanary) { return $device->getCanary(); }
 		return FALSE;
 	}
 
