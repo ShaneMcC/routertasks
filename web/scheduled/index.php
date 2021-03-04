@@ -3,12 +3,6 @@
 	setBasePathDir(dirname(getBasePathDir()));
 	require_once(dirname(__FILE__) . '/../header.php');
 
-	if (!isLoggedInAdmin()) {
-		echo 'Access Denied.';
-		require_once(dirname(__FILE__) . '/../footer.php');
-		die();
-	}
-
 	if ($dbConn == null) {
 		echo 'Scheduled tasks not enabled, or database not available.';
 		require_once(dirname(__FILE__) . '/../footer.php');
@@ -16,8 +10,11 @@
 	}
 	?>
 
-	<a class="btn btn-primary" href="<?=getBasePath()?>scheduled/new.php">Schedule New Task</a>
-	<br><br>
+	<?php if (isLoggedInAdmin()) { ?>
+		<a class="btn btn-primary" href="<?=getBasePath()?>scheduled/new.php">Schedule New Task</a>
+		<br><br>
+	<?php } ?>
+
 	<table class="table table-sm table-striped table-bordered">
 		<thead>
 			<tr>
@@ -72,7 +69,7 @@
 							echo '    </td>';
 							echo '    <td>';
 							echo '        <a class="btn btn-primary btn-sm" href="', getBasePath(), 'scheduled/view.php?id=', $row['id'], '">View Task</a>';
-							if ($row['status'] == 'scheduled') {
+							if (isLoggedInAdmin() && $row['status'] == 'scheduled') {
 								echo '        <a class="btn btn-danger btn-sm" href="', getBasePath(), 'scheduled/cancel.php?id=', $row['id'], '">Cancel Task</a>';
 							}
 							echo '    </td>';

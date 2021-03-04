@@ -24,9 +24,9 @@
 		<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 			<a class="navbar-brand" href="<?=getBasePath()?>">Router Task Runner</a>
 			<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a class="nav-link" href="<?=getBasePath()?>scheduled/">Scheduled tasks</a></li>
 				<?php if (isLoggedInAdmin()) { ?>
 					<li class="nav-item"><a class="nav-link" href="<?=getBasePath()?>listAll.php">All tasks</a></li>
-					<li class="nav-item"><a class="nav-link" href="<?=getBasePath()?>scheduled/">Scheduled tasks</a></li>
 				<?php } ?>
 			</ul>
 			<ul class="navbar-nav">

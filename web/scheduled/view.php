@@ -91,8 +91,8 @@
 		if ($sTask['status'] == 'scheduled') {
 			echo '        <a class="btn btn-danger" href="', getBasePath(), 'scheduled/cancel.php?id=', $sTask['id'], '">Cancel Task</a>';
 		}
-		echo '        <a class="btn btn-primary" href="', getBasePath(), 'scheduled/">Back to scheduled tasks list.</a>';
 	}
+	echo '        <a class="btn btn-primary" href="', getBasePath(), 'scheduled/">Back to scheduled tasks list.</a>';
 
 	echo '<br><br>';
 
