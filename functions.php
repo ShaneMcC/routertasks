@@ -15,7 +15,8 @@
 
 	function getBasePathDir() {
 		global $_BASEPATHDIR;
-		return isset($_BASEPATHDIR) ? $_BASEPATHDIR : dirname($_SERVER['SCRIPT_FILENAME']) . '/';
+		$result = isset($_BASEPATHDIR) ? $_BASEPATHDIR : dirname($_SERVER['SCRIPT_FILENAME']);
+		return preg_replace('#^/+#', '/', $result . '/');
 	}
 
 	function setBasePathDir($dir) {

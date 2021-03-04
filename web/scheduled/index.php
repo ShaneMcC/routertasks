@@ -16,7 +16,7 @@
 	}
 	?>
 
-	<a class="btn btn-primary" href="<?=getBasePath()?>/scheduled/new.php">Schedule New Task</a>
+	<a class="btn btn-primary" href="<?=getBasePath()?>scheduled/new.php">Schedule New Task</a>
 	<br><br>
 	<table class="table table-sm table-striped table-bordered">
 		<thead>
@@ -71,9 +71,9 @@
 							}
 							echo '    </td>';
 							echo '    <td>';
-							echo '        <a class="btn btn-primary btn-sm" href="', getBasePath(), '/scheduled/view.php?id=', $row['id'], '">View Task</a>';
+							echo '        <a class="btn btn-primary btn-sm" href="', getBasePath(), 'scheduled/view.php?id=', $row['id'], '">View Task</a>';
 							if ($row['status'] == 'scheduled') {
-								echo '        <a class="btn btn-danger btn-sm" href="', getBasePath(), '/scheduled/cancel.php?id=', $row['id'], '">Cancel Task</a>';
+								echo '        <a class="btn btn-danger btn-sm" href="', getBasePath(), 'scheduled/cancel.php?id=', $row['id'], '">Cancel Task</a>';
 							}
 							echo '    </td>';
 							echo '</tr>';

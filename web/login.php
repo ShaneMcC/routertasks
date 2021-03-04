@@ -28,7 +28,7 @@
 		<div class="row justify-content-md-center">
 			<div class="col-6">
 				<div class="box">
-					<form method="POST" action="<?=getBasePath()?>/login.php">
+					<form method="POST" action="<?=getBasePath()?>login.php">
 						<div class="header">
 							<h2>Login</h2>
 						</div>

@@ -71,7 +71,7 @@
 	<div class="row justify-content-md-center">
 		<div class="col-6">
 			<div class="box">
-				<form method="POST" action="<?=getBasePath()?>/scheduled/new.php">
+				<form method="POST" action="<?=getBasePath()?>scheduled/new.php">
 					<div class="header">
 						<h2>Schedule Task</h2>
 					</div>
@@ -132,7 +132,7 @@
 	</script>
 	<?php } ?>
 
-	<a class="btn btn-primary" href="<?=getBasePath()?>/scheduled/">Back to scheduled tasks list.</a>
+	<a class="btn btn-primary" href="<?=getBasePath()?>scheduled/">Back to scheduled tasks list.</a>
 
 	<?php
 	require_once(dirname(__FILE__) . '/../footer.php');

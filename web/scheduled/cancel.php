@@ -56,6 +56,6 @@
 		echo '<strong>Error:</strong> Only tasks that have not yet started can be cancelled.';
 	}
 
-	echo '        <a class="btn btn-primary" href="', getBasePath(), '/scheduled/">Back to scheduled tasks list.</a>';
+	echo '        <a class="btn btn-primary" href="', getBasePath(), 'scheduled/">Back to scheduled tasks list.</a>';
 
 	require_once(dirname(__FILE__) . '/../footer.php');
