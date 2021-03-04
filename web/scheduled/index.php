@@ -67,7 +67,7 @@
 								echo '        <strong>Started At:</strong> ', date('r', $row['startedAt']), '<br>';
 							}
 							if ($row['finishedAt'] > 0) {
-								echo '        <strong>Started At:</strong> ', date('r', $row['finishedAt']), '<br>';
+								echo '        <strong>Finished At:</strong> ', date('r', $row['finishedAt']), '<br>';
 							}
 							echo '    </td>';
 							echo '    <td>';

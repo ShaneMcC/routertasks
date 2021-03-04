@@ -78,7 +78,7 @@
 				}
 				if ($sTask['finishedAt'] > 0) {
 					echo '<tr>';
-					echo '    <th>Started At:</th><td> ', date('r', $sTask['finishedAt']), '</td>';
+					echo '    <th>Finished At:</th><td> ', date('r', $sTask['finishedAt']), '</td>';
 					echo '</tr>';
 				}
 			?>
