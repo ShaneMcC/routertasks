@@ -25,8 +25,17 @@
 	//    - %%DEV%% - Device name
 	$config['routers'] = [];
 
-	// Password for admin functions
+	// Default Password for admin functions.
+	// This might not be used if checkLogin and getLoginFields are overridden
+	// in config.local
 	$config['adminPassword'] = 'password';
+
+	// Database credentials for scheduled tasks feature.
+	// Disabled if null.
+	$config['database']['server'] = null;
+	$config['database']['username'] = 'routertasks';
+	$config['database']['password'] = 'routertasks';
+	$config['database']['database'] = 'routertasks';
 
 	// $config['routers']['router1'] = ['user' => 'admin', 'pass' => 'password', 'params' => '-o ProxyCommand="ssh bastion -W %%DEV%%:22"';
 	// $config['routers']['router2'] = ['user' => 'admin', 'pass' => 'somepassword'];
@@ -51,7 +60,10 @@
 	}
 
 	if (!function_exists('loginSuccess')) {
-		function loginSuccess($fields) { $_SESSION['isAdmin'] = true; }
+		function loginSuccess($fields) {
+			$_SESSION['isAdmin'] = true;
+			$_SESSION['adminName'] = 'admin';
+		}
 	}
 
 	if (!function_exists('loginFailed')) {
@@ -59,5 +71,8 @@
 	}
 
 	if (!function_exists('logoutSuccess')) {
-		function logoutSuccess() { unset($_SESSION['isAdmin']); }
+		function logoutSuccess() {
+			unset($_SESSION['isAdmin']);
+			unset($_SESSION['adminName']);
+		}
 	}

@@ -2,10 +2,31 @@
 	require_once(__DIR__ . '/vendor/autoload.php');
 	require_once(__DIR__ . '/config.php');
 
+	$dbConn = null;
+	if ($config['database']['server'] != null) {
+		$dbConn = new mysqli($config['database']['server'], $config['database']['username'],$config['database']['password'], $config['database']['database']);
+
+		if ($dbConn->connect_error) {
+			$dbConn = null;
+		}
+	}
+
 	session_start();
 
+	function getBasePathDir() {
+		global $_BASEPATHDIR;
+		return isset($_BASEPATHDIR) ? $_BASEPATHDIR : dirname($_SERVER['SCRIPT_FILENAME']) . '/';
+	}
+
+	function setBasePathDir($dir) {
+		global $_BASEPATHDIR;
+		$_BASEPATHDIR = $dir;
+	}
+
 	function getBasePath() {
-		$basepath = dirname($_SERVER['SCRIPT_FILENAME']) . '/';
+		global $_BASEPATHDIR;
+
+		$basepath = getBasePathDir();
 		$basepath = preg_replace('#^' . preg_quote($_SERVER['DOCUMENT_ROOT']) . '#', '/', $basepath);
 		$basepath = preg_replace('#^/+#', '/', $basepath);
 

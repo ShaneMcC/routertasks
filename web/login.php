@@ -58,7 +58,7 @@
 							<div class="form-actions">
 								<div class="control-group">
 									<div class="controls">
-										<button class="btn btn-primary" type="submit" name="submit">Run Task</button>
+										<button class="btn btn-primary" type="submit" name="submit">Login</button>
 									</div>
 								</div>
 							</div>

@@ -17,7 +17,7 @@
 		<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/styles/monokai.min.css">
 		<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/highlight.min.js"></script>
 
-		<link href="style.css" rel="stylesheet">
+		<link href="<?=getBasePath()?>/style.css" rel="stylesheet">
 	</head>
 
 	<body>
@@ -26,6 +26,7 @@
 			<ul class="navbar-nav mr-auto">
 				<?php if (isLoggedInAdmin()) { ?>
 					<li class="nav-item"><a class="nav-link" href="<?=getBasePath()?>/listAll.php">All tasks</a></li>
+					<li class="nav-item"><a class="nav-link" href="<?=getBasePath()?>/scheduled/">Scheduled tasks</a></li>
 				<?php } ?>
 			</ul>
 			<ul class="navbar-nav">
