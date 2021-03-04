@@ -40,6 +40,13 @@
 					$taskName = $config['tasks'][$taskid]['name'];
 				}
 
+				$tableClass = '';
+				if ($sTask['status'] == 'scheduled') { $tableClass = ''; }
+				else if ($sTask['status'] == 'started') { $tableClass = 'table-primary'; }
+				else if ($sTask['status'] == 'finished') { $tableClass = 'table-success'; }
+				else if ($sTask['status'] == 'failed') { $tableClass = 'table-danger'; }
+				else if ($sTask['status'] == 'cancelled') { $tableClass = 'table-warning'; }
+
 				echo '<tr>';
 				echo '    <th>Scheduled Task ID</th>';
 				echo '    <td>', $sTask['id'], '</td>';
@@ -52,7 +59,7 @@
 				echo '    <th>Reason</th>';
 				echo '    <td>', nl2br(htmlspecialchars($sTask['reason'])), '</td>';
 				echo '</tr>';
-				echo '<tr>';
+				echo '<tr class="' . $tableClass . '">';
 				echo '    <th>Status:</th><td> ', $sTask['status'], '</td>';
 				echo '</tr>';
 				echo '<tr>';
@@ -90,11 +97,7 @@
 		showTask($taskid, true);
 		echo '<script>hljs.initHighlightingOnLoad();</script>';
 	} else {
-
-		// TODO: Format this nicer.
-		echo '<pre>';
-		echo htmlspecialchars($sTask['output']);
-		echo '</pre>';
+		showTaskOuput($sTask['output'], true);
 	}
 
 	require_once(dirname(__FILE__) . '/../footer.php');

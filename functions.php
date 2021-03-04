@@ -294,7 +294,7 @@
 			$step = $task['steps'][$s];
 			if ($html) {
 				echo '<h3>';
-				echo 'Step: ', ($s+1), ' / ', $stepCount, ' [', $step['name'], ']', "\n";
+				echo 'Step: ', ($s+1), ' / ', $stepCount, ' [', htmlspecialchars($step['name']), ']', "\n";
 				echo '</h3>';
 			} else {
 				echo '==[ Begin Step: ', ($s+1), ' / ', $stepCount, ' ]=[ ', $step['name'], ' ]==========', "\n";
@@ -418,6 +418,92 @@
 		}
 
 		return $finalResult;
+	}
+
+	function showTaskOuput($taskOutput, $html = false) {
+		if (!$html) {
+			echo $taskOutput;
+			return;
+		}
+
+		// TODO: This is a bit horrible.
+		$inPre = false;
+		$inValidate = false;
+		foreach (explode("\n", $taskOutput) as $line) {
+			if (preg_match('#^==\[ End (.*) \]=\[ (.*) \]==+$#', $line)) {
+				if ($inPre) { echo '</pre>'; }
+				$inPre = false;
+				echo '<hr>';
+			}
+
+			if (preg_match('#^Running task:*#', $line)) {
+				$inPre = false;
+				echo '</pre>';
+				echo '<h2>', htmlspecialchars($line), '</h2>';
+			}
+
+			if (preg_match('#^Beginning pre-flight checks.*#', $line)) {
+				echo '<strong>', htmlspecialchars($line), '</strong>';
+				echo '<pre>';
+				$inPre = true;
+				continue;
+			}
+
+			if (preg_match('#^==\[ Begin (.*) \]=\[ (.*) \]==+$#', $line, $m)) {
+				echo '<h3>';
+				echo htmlspecialchars($m[1]), ' [', htmlspecialchars($m[2]), ']', "\n";
+				echo '</h3>';
+			}
+
+			if (preg_match('#^\#\#\# Router: (.*)#', $line, $m)) {
+				if ($inPre) { echo '</pre>'; }
+
+				echo '<h4>';
+				echo 'Router: ', htmlspecialchars($m[1]), "\n";
+				echo '</h4>';
+
+				echo '<pre>';
+				$inPre = true;
+				continue;
+			}
+
+			if (preg_match('#^!!! Command: (.*)#', $line, $m)) {
+				echo '<strong>', htmlspecialchars($line), '</strong>', "\n";
+				continue;
+			}
+
+			if ($inValidate) {
+				if (preg_match('#^(.*):(.*)#', $line, $m)) {
+					echo '<strong>', htmlspecialchars($m[1]), ':</strong> <code>', htmlspecialchars($m[2]), '</code><br>';
+				}
+
+				if (preg_match('#^Validation (.*)#', $line, $m)) {
+					$inValidate = false;
+
+					echo '<span class="', ($m[1] == 'Succeeded' ? 'yes' : 'no'), '"><strong>';
+					echo htmlspecialchars($line), "\n";
+					echo '</strong></span><br>';
+					echo '<br>';
+				}
+			} else if (preg_match('#^\?\?\? Validate: (.*)#', $line, $m)) {
+				if ($inPre) { echo '</pre>'; }
+				$inPre = false;
+
+				echo '<h5>';
+				echo 'Validate: ', htmlspecialchars($m[1]), "\n";
+				echo '</h5>';
+				$inValidate = true;
+			}
+
+			if ($inPre) {
+				echo htmlspecialchars($line), "\n";
+			} else if (preg_match('#^(Skipping step|Waiting.*seconds|Stopping further)#', $line)) {
+				echo htmlspecialchars($line), "\n";
+				echo '<br>';
+			}
+		}
+
+		echo '</pre>';
 	}
 
 	function showTask($taskid, $html = false) {
