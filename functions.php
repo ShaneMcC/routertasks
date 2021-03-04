@@ -135,6 +135,16 @@
 			$config['tasks'][$taskId]['id'] = $taskId;
 			$config['tasks'][$taskId]['file'] = $file;
 		}
+
+		uksort($config['tasks'], function ($a, $b) use ($config) {
+			$a = $config['tasks'][$a];
+			$b = $config['tasks'][$b];
+
+			$aName = isset($a['slug']) ? $a['slug'] : $a['id'];
+			$bName = isset($b['slug']) ? $b['slug'] : $b['id'];
+
+			return strcmp($aName, $bName);
+		});
 	}
 
 	function getConnectedDevice($deviceName) {
