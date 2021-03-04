@@ -125,6 +125,8 @@
 
 	<br><br>
 
+	<a class="btn btn-primary" href="<?=getBasePath()?>/scheduled/">Back to scheduled tasks list.</a>
+
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.3/chosen.css" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.3/chosen.jquery.js"></script>
 	<script>
