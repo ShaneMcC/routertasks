@@ -45,7 +45,16 @@
 								$taskName = $config['tasks'][$taskid]['name'];
 							}
 
-							echo '<tr>';
+							$tableClass = '';
+
+							if ($row['status'] == 'scheduled') { $tableClass = ''; }
+							else if ($row['status'] == 'started') { $tableClass = 'table-primary'; }
+							else if ($row['status'] == 'finished') { $tableClass = 'table-success'; }
+							else if ($row['status'] == 'failed') { $tableClass = 'table-danger'; }
+							else if ($row['status'] == 'cancelled') { $tableClass = 'table-warning'; }
+
+
+							echo '<tr class="' . $tableClass . '">';
 							echo '    <td>', $row['id'], '</td>';
 							echo '    <td>', htmlspecialchars($taskName), '</td>';
 							echo '    <td>', nl2br(htmlspecialchars($row['reason'])), '</td>';
