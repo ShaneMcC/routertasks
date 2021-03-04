@@ -57,6 +57,10 @@
 				$err = true;
 			} else {
 				echo '<strong>Success:</strong> Task has been scheduled for ' . date('r', $scheduledTime) . '<br>';
+
+				$newId = $dbConn->insert_id;
+
+				echo '        <a class="btn btn-success" href="', getBasePath(), 'scheduled/view.php?id=', $newId, '">View task.</a>';
 			}
 			$stmt->close();
 		} else {
