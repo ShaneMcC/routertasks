@@ -570,7 +570,7 @@
 		}
 
 		if ($html) { echo '<pre class="hljs"><code class="yaml">'; }
-		echo file_get_contents($task['file']);
+		echo htmlspecialchars(file_get_contents($task['file']));
 		if ($html) { echo '</code></pre>'; }
 	}
 
