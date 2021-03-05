@@ -62,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ShaneMcC/phprouter.git",
-                "reference": "fa9ec72d6b1cc6e530850cf52ee50265dae438f5"
+                "reference": "ed921143102fba3a2984895018105f37501fa6d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ShaneMcC/phprouter/zipball/fa9ec72d6b1cc6e530850cf52ee50265dae438f5",
-                "reference": "fa9ec72d6b1cc6e530850cf52ee50265dae438f5",
+                "url": "https://api.github.com/repos/ShaneMcC/phprouter/zipball/ed921143102fba3a2984895018105f37501fa6d3",
+                "reference": "ed921143102fba3a2984895018105f37501fa6d3",
                 "shasum": ""
             },
             "require": {
@@ -92,7 +92,7 @@
                 }
             ],
             "description": "PHP Scripts for interacting with network devices",
-            "time": "2021-03-04T22:02:05+00:00"
+            "time": "2021-03-05T14:40:48+00:00"
         }
     ],
     "packages-dev": [],
