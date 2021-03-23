@@ -436,6 +436,19 @@
 			flush();
 		}
 
+		foreach ($task['steps'] as $stepid => $step) {
+			if (isset($step['skip']) && parseBool($step['skip'])) { continue; }
+
+			if (isset($step['routers'])) {
+				foreach ($step['routers'] as $router) {
+					$dev = getConnectedDevice($router);
+					if ($dev != FALSE) {
+						$dev->disconnect();
+					}
+				}
+			}
+		}
+
 		return $finalResult;
 	}
 
