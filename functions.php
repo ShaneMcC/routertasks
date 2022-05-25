@@ -594,6 +594,34 @@
 		if ($html) { echo '<pre class="hljs"><code class="yaml">'; }
 		echo htmlspecialchars(file_get_contents($task['file']));
 		if ($html) { echo '</code></pre>'; }
+
+		// Check that all routers needed are available and that we support
+		// them.
+		$checkedRouters = [];
+		foreach ($task['steps'] as $stepid => $step) {
+			if (isset($step['skip']) && parseBool($step['skip'])) { continue; }
+
+			if (isset($step['routers'])) {
+				foreach ($step['routers'] as $router) {
+					if (isset($checkedRouters[$router])) { continue; }
+
+					$dev = getDeviceObject(getDeviceFromAlias($router));
+					if ($dev == FALSE) {
+						if ($html) { echo '<strong>Warning:<strong> '; } else { echo '**Warning:** '; }
+						echo 'Unknown router: ', $router, "\n";
+						if ($html) { echo '<br>'; }
+					}
+
+					if (getCanary($dev) === FALSE) {
+						if ($html) { echo '<strong>Warning:<strong> '; } else { echo '**Warning:** '; }
+						echo 'Unsupported router: ', $router, "\n";
+						if ($html) { echo '<br>'; }
+					}
+
+					$checkedRouters[$router] = true;
+				}
+			}
+		}
 	}
 
 	function isLoggedInAdmin() {
