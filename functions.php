@@ -141,7 +141,7 @@
 				$config['tasks'][$taskId]['name'] = preg_replace('#\.ya?ml$#', '', $relName);
 			}
 			if (!isset($config['tasks'][$taskId]['slug'])) {
-				$config['tasks'][$taskId]['slug'] = 'auto-'.preg_replace('#\.ya?ml$#', '', $relName);
+				$config['tasks'][$taskId]['slug'] = preg_replace('#\.ya?ml$#', '', $relName);
 			}
 		}
 
