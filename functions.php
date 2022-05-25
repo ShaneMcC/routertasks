@@ -130,10 +130,19 @@
 
 		$config['tasks'] = [];
 		foreach (recursiveFindFiles($config['taskdir'], ['yaml', 'yml']) as $file) {
+			$relName = preg_replace('/^' . preg_quote($config['taskdir'], '/') . '/', '', $file);
+
 			$taskId = crc32($file);
 			$config['tasks'][$taskId] = spyc_load_file($file);
 			$config['tasks'][$taskId]['id'] = $taskId;
 			$config['tasks'][$taskId]['file'] = $file;
+
+			if (!isset($config['tasks'][$taskId]['name'])) {
+				$config['tasks'][$taskId]['name'] = preg_replace('#\.ya?ml$#', '', $relName);
+			}
+			if (!isset($config['tasks'][$taskId]['slug'])) {
+				$config['tasks'][$taskId]['slug'] = 'auto-'.preg_replace('#\.ya?ml$#', '', $relName);
+			}
 		}
 
 		uksort($config['tasks'], function ($a, $b) use ($config) {
