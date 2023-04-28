@@ -62,22 +62,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ShaneMcC/phprouter.git",
-                "reference": "bb64187bddf28534af3649a7e3db51d383cde34d"
+                "reference": "c12ae24a4eb3200d01fc04f7264251198f6b23dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ShaneMcC/phprouter/zipball/bb64187bddf28534af3649a7e3db51d383cde34d",
-                "reference": "bb64187bddf28534af3649a7e3db51d383cde34d",
+                "url": "https://api.github.com/repos/ShaneMcC/phprouter/zipball/c12ae24a4eb3200d01fc04f7264251198f6b23dd",
+                "reference": "c12ae24a4eb3200d01fc04f7264251198f6b23dd",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2"
             },
+            "default-branch": true,
             "type": "project",
             "autoload": {
+                "psr-4": {
+                    "shanemcc\\PhpRouter\\": "src/"
+                },
                 "classmap": [
-                    "impl/",
-                    "sockets/",
                     "thirdparty/net_telnet/Net/"
                 ]
             },
@@ -92,7 +94,11 @@
                 }
             ],
             "description": "PHP Scripts for interacting with network devices",
-            "time": "2021-03-23T14:12:18+00:00"
+            "support": {
+                "issues": "https://github.com/ShaneMcC/phprouter/issues",
+                "source": "https://github.com/ShaneMcC/phprouter/tree/master"
+            },
+            "time": "2023-03-06T17:42:14+00:00"
         }
     ],
     "packages-dev": [],
