@@ -2,6 +2,11 @@
 	require_once(__DIR__ . '/vendor/autoload.php');
 	require_once(__DIR__ . '/config.php');
 
+    use shanemcc\PhpRouter\Implementations\HasCanary;
+    use shanemcc\PhpRouter\Implementations\CiscoSwitch;
+    use shanemcc\PhpRouter\Sockets\OpenSSHShellSocket;
+    use shanemcc\PhpRouter\Sockets\SSHSocket;
+
 	$dbConn = null;
 	if ($config['database']['server'] != null) {
 		$dbConn = new mysqli($config['database']['server'], $config['database']['username'],$config['database']['password'], $config['database']['database']);
