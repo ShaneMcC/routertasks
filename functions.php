@@ -82,12 +82,13 @@
 
 		$device = null;
 		if (isset($config['routers'][$dev]['type'])) {
-			$devType = $config['routers'][$dev]['type'];
+			$ns = 'shanemcc\\PhpRouter\\Implementations\\';
+			$devType = $ns.$config['routers'][$dev]['type'];
 
 			if (class_exists($devType)) {
 				$class = new ReflectionClass($devType);
 
-				if ($class->isSubclassOf(new ReflectionClass('NetworkDevice'))) {
+				if ($class->isSubclassOf(new ReflectionClass($ns.'NetworkDevice'))) {
 					$device = new $devType('', '', '', $sock);
 				}
 			}
